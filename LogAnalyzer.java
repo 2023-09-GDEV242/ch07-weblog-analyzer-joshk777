@@ -10,10 +10,11 @@ public class LogAnalyzer
     private int[] hourCounts;
     // Use a LogfileReader to access the data.
     private LogfileReader reader;
-    
+    // File name to analyze.
     private String fileName;
     /**
      * Create an object to analyze hourly web accesses.
+     * fileName allows entry of a specific file
      */
     public LogAnalyzer(String fileName)
     { 
@@ -64,6 +65,27 @@ public class LogAnalyzer
         }
         
         return total;
+    }
+    
+    /**
+     * Determine the busiest hour
+     * The busiest hours are determined by finding the maximum value in the array.
+     */
+    public void busiestHour()
+    {
+        int maxValue = 0;
+        int maxValueIndex = 0;
+        
+        for(int index = 0; index < hourCounts.length; index++)
+        {
+            if(maxValue < hourCounts[index])
+            {
+                maxValue = hourCounts[index];
+                maxValueIndex = index;
+            }
+        }
+        
+        System.out.println("The busiest hour is : " + maxValueIndex);
     }
     
     /**
