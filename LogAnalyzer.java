@@ -18,7 +18,6 @@ public class LogAnalyzer
      */
     public LogAnalyzer(String fileName)
     { 
-        this.fileName = fileName;
         // Create the array object to hold the hourly
         // access counts.
         hourCounts = new int[24];
@@ -109,6 +108,15 @@ public class LogAnalyzer
         }
         
         System.out.println("The quietest hour is at index: " + minValueIndex);
+    }
+    
+    /**
+     * Finds and print the index of the two busiest hours in the hourCounts array
+     * 
+     */
+    public void busiestTwoHour()
+    {
+        
     }
     
     /**
