@@ -68,24 +68,47 @@ public class LogAnalyzer
     }
     
     /**
-     * Determine the busiest hour
-     * The busiest hours are determined by finding the maximum value in the array.
+     * Finds and prints the index of the busiest hour in the hourCounts array.
+     * The busiest hour is determined by finding the maximum value in the array.
+     * 
      */
     public void busiestHour()
     {
-        int maxValue = 0;
-        int maxValueIndex = 0;
+        int maxValue = -1;
+        int maxValueIndex = -1;
         
         for(int index = 0; index < hourCounts.length; index++)
         {
-            if(maxValue < hourCounts[index])
+            if(hourCounts[index] > maxValue)
             {
                 maxValue = hourCounts[index];
                 maxValueIndex = index;
             }
         }
         
-        System.out.println("The busiest hour is : " + maxValueIndex);
+        System.out.println("The busiest hour is at index: " + maxValueIndex);
+    }
+    
+    /**
+     * Finds and prints the index of the quietest hour in the hourCounts array.
+     * The quietest hour is determined by finding the minimum value in the array.
+     * 
+     */
+    public void quietestHour()
+    {
+        int minValue = Integer.MAX_VALUE;
+        int minValueIndex = -1;
+        
+        for(int index = 0; index < hourCounts.length; index++)
+        {
+            if(hourCounts[index] < minValue)
+            {
+                minValue = hourCounts[index];
+                minValueIndex = index;
+            }
+        }
+        
+        System.out.println("The quietest hour is at index: " + minValueIndex);
     }
     
     /**
