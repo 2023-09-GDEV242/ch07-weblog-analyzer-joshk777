@@ -8,6 +8,8 @@ public class LogAnalyzer
 {
     // Where to calculate the hourly access counts.
     private int[] hourCounts;
+    
+    private int[] monthCount;
     // Use a LogfileReader to access the data.
     private LogfileReader reader;
     // File name to analyze.
@@ -21,6 +23,8 @@ public class LogAnalyzer
         // Create the array object to hold the hourly
         // access counts.
         hourCounts = new int[24];
+        
+        monthCount = new int[12];
         // Create the reader to obtain the data.
         reader = new LogfileReader(fileName);
     }
@@ -30,13 +34,39 @@ public class LogAnalyzer
      */
     public void analyzeHourlyData()
     {
+        reader.reset();
         while(reader.hasNext()) {
             LogEntry entry = reader.next();
             int hour = entry.getHour();
             hourCounts[hour]++;
         }
     }
+    
+    /**
+     * Analy the monthly access data from the log file
+     */
+    public void analyzeMonthData()
+    {
+        reader.reset();
+        while(reader.hasNext())
+        {
+            LogEntry entry = reader.next();
+            int month = entry.getMonth();
+            monthCount[month-1]++;
+        }
+    }
+    
+    public void printMonthlyCounts()
+    {
+        System.out.println("Month: Count");
+        for(int month = 0; month < monthCount.length; month++)
+        {
+            System.out.println(month + " : " + monthCount[month]);
+        }
 
+        
+    }
+    
     /**
      * Print the hourly counts.
      * These should have been set with a prior
@@ -65,7 +95,25 @@ public class LogAnalyzer
         
         return total;
     }
-    
+    /**
+     * Finds and prints the index of the busiest month in the monthCounts array.
+     * The busiest month is determined by finding the maximum value in the array
+     * 
+     */
+    public void busiestMonth()
+    {
+        int maxValue = -1;
+        int maxValueIndex = -1;
+        
+        for(int index = 0; index < monthCount.length; index++)
+        {
+            if(monthCount[index] > maxValue)
+            {
+                maxValue = monthCount[index];
+                maxValueIndex = index;
+            }
+        }
+    }
     /**
      * Finds and prints the index of the busiest hour in the hourCounts array.
      * The busiest hour is determined by finding the maximum value in the array.
