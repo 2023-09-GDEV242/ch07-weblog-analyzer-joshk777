@@ -296,6 +296,27 @@ public class LogAnalyzer
     }
     
     /**
+     * Calculate and print the monthly averages for each month.
+     */
+    public void monthlyAverage()
+    {
+        int total = 0;
+        
+        for(int index = 0; index < monthCount.length; index++)
+        {
+            total = total + monthCount[index];
+        }
+        
+        for(int index = 0; index < monthCount.length; index++)
+        {
+            double average = (double)monthCount[index] / total;
+            
+            System.out.println("The average for month " + (index + 1) + " is : " 
+                                + average);
+        }
+    }
+    
+    /**
      * Print the lines of data read by the LogfileReader
      */
     public void printData()
