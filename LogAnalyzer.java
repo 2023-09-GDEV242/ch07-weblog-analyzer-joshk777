@@ -116,7 +116,31 @@ public class LogAnalyzer
      */
     public void busiestTwoHour()
     {
+        int maxTotalCount = 0;//holds the sum for the largets period
+        int busiestPeriodStartHour = -1;//hold the hour of the busiest start period hour
         
+        //loop through the 24hr period
+        for(int startHour = 0; startHour < hourCounts.length; startHour++)
+        {
+            int currentPeriodTotalCount = 0;//hold the sum of the current period
+            
+            //increment by 2hr period
+            for(int i = 0; i < 2; i++)
+            {
+                int hour = (startHour + i)%12; //handle the roll over special case
+                currentPeriodTotalCount += hourCounts[hour];//pull the value from the current index & add
+            }
+            
+            //update the initial variables to hold the highest hour & sum
+            if(currentPeriodTotalCount > maxTotalCount)
+            {
+                maxTotalCount = currentPeriodTotalCount;
+                busiestPeriodStartHour = startHour;
+            }
+        }
+        
+        System.out.println("The busiest two-hour period is from " + busiestPeriodStartHour + " to " 
+                            + (busiestPeriodStartHour + 2));
     }
     
     /**
