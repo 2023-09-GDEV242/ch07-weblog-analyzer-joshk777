@@ -10,6 +10,8 @@ public class LogAnalyzer
     private int[] hourCounts;
     
     private int[] monthCount;
+    
+    private int[] dayCount;
     // Use a LogfileReader to access the data.
     private LogfileReader reader;
     // File name to analyze.
@@ -25,6 +27,8 @@ public class LogAnalyzer
         hourCounts = new int[24];
         
         monthCount = new int[12];
+        
+        dayCount = new int[31];
         // Create the reader to obtain the data.
         reader = new LogfileReader(fileName);
     }
@@ -43,7 +47,7 @@ public class LogAnalyzer
     }
     
     /**
-     * Analy the monthly access data from the log file
+     * Analyze the monthly access data from the log file
      */
     public void analyzeMonthData()
     {
@@ -56,15 +60,18 @@ public class LogAnalyzer
         }
     }
     
-    public void printMonthlyCounts()
+    /**
+     * Analyze the daily access data from the log file
+     */
+    public void analyzeDailyData()
     {
-        System.out.println("Month: Count");
-        for(int month = 0; month < monthCount.length; month++)
+        reader.reset();
+        while(reader.hasNext())
         {
-            System.out.println(month + " : " + monthCount[month]);
+            LogEntry entry = reader.next();
+            int day = entry.getDay();
+            dayCount[day]++;
         }
-
-        
     }
     
     /**
@@ -79,7 +86,7 @@ public class LogAnalyzer
             System.out.println(hour + ": " + hourCounts[hour]);
         }
     }
-    
+
     /**
      * Print the total of accesses
      * in a 24HR period
@@ -95,25 +102,7 @@ public class LogAnalyzer
         
         return total;
     }
-    /**
-     * Finds and prints the index of the busiest month in the monthCounts array.
-     * The busiest month is determined by finding the maximum value in the array
-     * 
-     */
-    public void busiestMonth()
-    {
-        int maxValue = -1;
-        int maxValueIndex = -1;
-        
-        for(int index = 0; index < monthCount.length; index++)
-        {
-            if(monthCount[index] > maxValue)
-            {
-                maxValue = monthCount[index];
-                maxValueIndex = index;
-            }
-        }
-    }
+    
     /**
      * Finds and prints the index of the busiest hour in the hourCounts array.
      * The busiest hour is determined by finding the maximum value in the array.
@@ -189,6 +178,121 @@ public class LogAnalyzer
         
         System.out.println("The busiest two-hour period is from " + busiestPeriodStartHour + " to " 
                             + (busiestPeriodStartHour + 2));
+    }
+    
+    /**
+     * Print the montly counts.
+     * These should have been set with a prior
+     * call to analyzeMonthlyData.
+     */
+    public void printMonthlyCounts()
+    {
+        System.out.println("Month:Count");
+        for(int month = 0; month < monthCount.length; month++)
+        {
+            System.out.println(month + " : " + monthCount[month]);
+        }
+    }
+     
+    /**
+     * Finds and prints the index of the busiest month in the monthCounts array.
+     * The busiest month is determined by finding the maximum value in the array
+     * 
+     */
+    public void busiestMonth()
+    {
+        int maxValue = -1;
+        int maxValueIndex = -1;
+        
+        for(int index = 0; index < monthCount.length; index++)
+        {
+            if(monthCount[index] > maxValue)
+            {
+                maxValue = monthCount[index];
+                maxValueIndex = index;
+            }
+        }
+        
+        System.out.println("The busiest month is at index: " + maxValueIndex);
+    }
+    
+    /**
+     * Finds and prints the index of the quietest month in the monthCount array.
+     * The quietest month is determined by finding the minimum value in the array.
+     * 
+     */
+    public void quietestMonth()
+    {
+        int minValue = Integer.MAX_VALUE;
+        int minValueIndex = -1;
+        
+        for(int index = 0; index < monthCount.length; index++)
+        {
+            if(monthCount[index] < minValue)
+            {
+                minValue = monthCount[index];
+                minValueIndex = index;
+            }
+        }
+        
+        System.out.println("The quietest month is at index: " + minValueIndex);
+    }
+    
+    /**
+     * Print the daily counts.
+     * These should have been set with a prior
+     * call to analyzeDailyData.
+     */
+    public void printDailyCounts()
+    {
+        System.out.println("Day: Count");
+        for(int day = 0; day < dayCount.length; day++) {
+            System.out.println(day + ": " + dayCount[day]);
+        }
+    }    
+    
+    /**
+     * Finds and prints the index of the busiest day in the dayCount array.
+     * The busiest day is determined by finding the minimum value in the array.
+     * 
+     */
+    public void busiestDay()
+    {
+        int maxValue = -1;
+        int maxValueIndex = -1;
+        
+        for(int index = 0; index < dayCount.length; index++)
+        {
+            if(dayCount[index] > maxValue)
+            {
+                maxValue = dayCount[index];
+                maxValueIndex = index;
+            }
+        }
+        
+        System.out.println("The busiest day is at index: " + maxValueIndex);
+    }
+    
+    /**
+     * Finds and prints the index of the quietest day in the dayCount array.
+     * The quietest day is determined by finding the minimum value in the array.
+     * 
+     */
+    public void quietestDay()
+    {
+        int minValue = Integer.MAX_VALUE;
+        int minValueIndex = -1;
+        
+        for(int index = 0; index < dayCount.length; index++)
+        {
+            if(dayCount[index] < minValue)
+            {
+                minValue = dayCount[index];
+                minValueIndex = index;
+            }
+        }
+        
+        System.out.println("The quietest day is at index: " + minValueIndex);
     }
     
     /**
